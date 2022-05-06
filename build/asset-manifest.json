@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/fasli/static/css/main.e5c1e00b.chunk.css",
+    "main.js": "/fasli/static/js/main.ca48c2e2.chunk.js",
+    "main.js.map": "/fasli/static/js/main.ca48c2e2.chunk.js.map",
+    "runtime-main.js": "/fasli/static/js/runtime-main.a1361269.js",
+    "runtime-main.js.map": "/fasli/static/js/runtime-main.a1361269.js.map",
+    "static/js/2.4fb85042.chunk.js": "/fasli/static/js/2.4fb85042.chunk.js",
+    "static/js/2.4fb85042.chunk.js.map": "/fasli/static/js/2.4fb85042.chunk.js.map",
+    "static/js/3.97620b58.chunk.js": "/fasli/static/js/3.97620b58.chunk.js",
+    "static/js/3.97620b58.chunk.js.map": "/fasli/static/js/3.97620b58.chunk.js.map",
+    "index.html": "/fasli/index.html",
+    "static/css/main.e5c1e00b.chunk.css.map": "/fasli/static/css/main.e5c1e00b.chunk.css.map",
+    "static/js/2.4fb85042.chunk.js.LICENSE.txt": "/fasli/static/js/2.4fb85042.chunk.js.LICENSE.txt",
+    "static/media/tailwind.css": "/fasli/static/media/background-1920x1280.20a2d875.jpg",
+    "static/media/banner_dhan_foundation_png.7d69d01f.png": "/fasli/static/media/banner_dhan_foundation_png.7d69d01f.png",
+    "static/media/team-1-800x800.fa5a7ac2.jpg": "/fasli/static/media/team-1-800x800.fa5a7ac2.jpg",
+    "static/media/team-2-800x800.3e08ef14.jpg": "/fasli/static/media/team-2-800x800.3e08ef14.jpg",
+    "static/media/team-3-800x800.19201574.jpg": "/fasli/static/media/team-3-800x800.19201574.jpg",
+    "static/media/team-4-470x470.4ef82ef4.png": "/fasli/static/media/team-4-470x470.4ef82ef4.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a1361269.js",
+    "static/js/2.4fb85042.chunk.js",
+    "static/css/main.e5c1e00b.chunk.css",
+    "static/js/main.ca48c2e2.chunk.js"
+  ]
+}
