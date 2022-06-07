@@ -10,7 +10,7 @@ import DropdownLink from "@material-tailwind/react/DropdownLink";
 import Checkbox from "@material-tailwind/react/Checkbox";
 import Label from "@material-tailwind/react/Label";
 import FarmerCropDetails from "./FarmerCropDetails";
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useRef} from "react";
 import qs from "qs";
 
 import Radio from "@material-tailwind/react/radio";
@@ -22,10 +22,26 @@ import ModalBody from "@material-tailwind/react/ModalBody";
 import { indexOf } from "lodash";
 import { func } from "assert-plus";
 
-export default function FarmerRegisterForm() {
+export default function FarmerRegisterForm(props) {
   // const [maxid,setMaxid]=useState(4);
   // const [name,setName]=useState("");
   //const [spouse,setSpouse]=useState("");
+
+  console.log(JSON.stringify(props));
+  console.log(props.editInput);
+
+  const tankfedCheck=useRef();
+  const rainfedCheck=useRef();
+  const borewellCheck=useRef();
+  const dripCheck=useRef();
+
+  
+
+  // const editInput=JSON.stringify(props.editInput.history.location.state.input);
+  // const editInput=(props.editInput.history.location.state.input)? props.editInput.history.location.state.input :"";  
+
+  // console.log("editInput->"+JSON.stringify(editInput));
+
   function disableById(id, status) {
     const myId = document.querySelector(`#${id}`);
     if (status === "Yes") {
@@ -38,6 +54,7 @@ export default function FarmerRegisterForm() {
     }
   }
   const currLandEntries={
+    action:"add",
     id:"",
     type:"",
     acres:"",
@@ -61,14 +78,120 @@ export default function FarmerRegisterForm() {
     cropInsurance:"",
     liveStock:"Select Livestock"
   }
-  const [tankfeddetails,setTankfeddetails]=useState(currLandEntries);
-  const [rainfeddetails,setRainfeddetails]=useState(currLandEntries);
-  const [borewelldetails,setborewelldetails]=useState(currLandEntries);
-  const [dripdetails,setDripdetails]=useState(currLandEntries);
+  const [tankfeddetails,setTankfeddetails]=useState(()=>{
+
+    if(!props.editInput)
+    {
+      return currLandEntries
+    }
+    else
+    {
+      let json=currLandEntries;
+      Object.keys(props.editInput.history.location.state.input.landrecord).forEach(function(key) {
+
+        let record=props.editInput.history.location.state.input.landrecord[key];
+
+        console.log("Recird is")
+        console.log(record);
+
+        if (record.type=='tankfed')
+        {
+          console.log("Reaced inside tankfed");
+
+          json= {...record,action:"edit",id:""};
+        }
+      })
+      console.log("Reached outside key iteration for tankfed")
+      return json;
+    }
+  });
+  const [rainfeddetails,setRainfeddetails]=useState(()=>{
+
+    if(!props.editInput)
+    {
+      return currLandEntries
+    }
+    else
+    {
+      let json=currLandEntries;
+      Object.keys(props.editInput.history.location.state.input.landrecord).forEach(function(key) {
+
+        let record=props.editInput.history.location.state.input.landrecord[key];
+
+        console.log("Recird is")
+        console.log(record);
+
+        if (record.type=='rainfed')
+        {
+          console.log("Reaced inside rainfed");
+
+          json= {...record,action:"edit",id:""};
+        }
+      })
+      console.log("Reached outside key iteration for rainfed")
+      return json;
+    }
+  });
+  const [borewelldetails,setborewelldetails]=useState(()=>{
+
+    if(!props.editInput)
+    {
+      return currLandEntries
+    }
+    else
+    {
+      let json=currLandEntries;
+      Object.keys(props.editInput.history.location.state.input.landrecord).forEach(function(key) {
+
+        let record=props.editInput.history.location.state.input.landrecord[key];
+
+        console.log("Recird is")
+        console.log(record);
+
+        if (record.type=='borewell')
+        {
+          console.log("Reaced inside borewell");
+
+          json= {...record,action:"edit",id:""};
+        }
+      })
+      console.log("Reached outside key iteration for borewell")
+      return json;
+    }
+  });
+  const [dripdetails,setDripdetails]=useState(()=>{
+
+    if(!props.editInput)
+    {
+      return currLandEntries
+    }
+    else
+    {
+      let json=currLandEntries;
+      Object.keys(props.editInput.history.location.state.input.landrecord).forEach(function(key) {
+
+        let record=props.editInput.history.location.state.input.landrecord[key];
+
+        console.log("Recird is")
+        console.log(record);
+
+        if (record.type=='drip')
+        {
+          console.log("Reaced inside drip");
+
+          json= {...record,action:"edit",id:""};
+        }
+      })
+      console.log("Reached outside key iteration for drip")
+      return json;
+    }
+  });
 
   const [showModal, setShowModal] = useState(false);
   const [popupMessageTitle, setpopupMessageTitle] = useState("");
   const [popupMessageBody, setpopupMessageBody] = useState("");
+
+  const [actionn,setActionn]=useState((props.editInput) ? "edit":"add")
 
   const educationList = [
     "Literate",
@@ -90,16 +213,72 @@ export default function FarmerRegisterForm() {
   ];
 
 
-  const [landDetails,setLandDetails]=useState({
-    tankfed:false,
-    rainfed:false,
-    borewell:false,
-    drip:false
-  })
+  const [landDetails,setLandDetails]=useState(()=>{
+    if(!props.editInput)
+    {
+      
+      return {
+      tankfed:false,
+      rainfed:false,
+      borewell:false,
+      drip:false
+    }
+    }
+    else
+    {let json=
+      {
+        tankfed:false,
+        rainfed:false,
+        borewell:false,
+        drip:false
+      }
+      Object.keys(props.editInput.history.location.state.input.landrecord).forEach(function(key) {
+
+        console.log("Inside Function");
+        console.log(props.editInput.history.location.state.input.landrecord[key].type.trim());  
+        let record=props.editInput.history.location.state.input.landrecord[key];
+        switch(props.editInput.history.location.state.input.landrecord[key].type.trim()){
+
+          
+        
+        case "tankfed":
+          json.tankfed=true;
+          // setTankfeddetails({...record,action:"edit"});
+          // console.log("Reached tanked"+landDetails.tankfed);
+          break;
+        case "rainfed":
+          json.rainfed=true;
+          console.log("Reached rainfed");
+          // setRainfeddetails({...record,action:"edit"});
+          // console.log("Reached rainfed"+landDetails.rainfed);
+          break;
+        case "drip":
+         json.drip=true;
+          console.log("Reached drip");
+          // setDripdetails({...record,action:"edit"});
+          // console.log("Reached drip"+landDetails.drip);
+          break;
+        case "borewell":
+         json.borewell=true;
+          console.log("Reached borewell");
+          // setborewelldetails({...record,action:"edit"});
+          // console.log("Reached borewell"+landDetails.borewell);
+          break;
+
+        default:
+          // code block
+      }
+  
+      })
+
+      return json;
+    }
+})
 
   const inputState={
     associate:localStorage.getItem("associate")||'-1',
-    name: "",
+    action:"add",
+    name:"",
     spouse: "",
     father: "",
     dob: "",
@@ -131,6 +310,81 @@ export default function FarmerRegisterForm() {
 
   const [input, setInput] = useState(inputState);
 
+  
+  useEffect(()=>{
+
+    console.log(props);
+
+    function setEditValues()
+    {
+      setInput(props.editInput.history.location.state.input);
+
+      let landRecord=props.editInput.history.location.state.input.landrecord;
+
+      console.log(landRecord);
+      // console.log(landRecord.includes('type:tankfed'));
+
+      // Object.keys(landRecord).forEach(function(key) {
+
+      //   {console.log(landRecord[key].type)};
+      //   switch(landRecord[key].type.trim()){
+          
+      //     case "tankfed":
+      //       setLandDetails({...landDetails,tankfed:true})
+      //       console.log("Reached tanked"+landDetails.tankfed);
+      //       setTankfeddetails({...landRecord[key],action:"edit"});
+      //       // setTankfeddetails({...tankfeddetails,action:"edit"});
+      //       break;
+      //     case "rainfed":
+      //       setLandDetails({...landDetails,rainfed:true});
+      //       console.log("Reached rainfed");
+      //       console.log("Reached rainfed"+landDetails.rainfed);
+      //       setRainfeddetails({...landRecord[key],action:"edit"});
+      //       // setRainfeddetails({...tankfeddetails,action:"edit"});
+      //       break;
+      //     case "drip":
+      //       setLandDetails({...landDetails,drip:true});
+      //       console.log("Reached drip");
+      //       console.log("Reached drip"+landDetails.drip);
+      //       setDripdetails({...landRecord[key],action:"edit"});
+      //       // setRainfeddetails({...tankfeddetails,action:"edit"});
+      //       break;
+      //     case "borewell":
+      //       setLandDetails({...landDetails,borewell:true});
+      //       console.log("Reached borewell");
+      //       console.log("Reached borewell"+landDetails.borewell);
+      //       setborewelldetails({...landRecord[key],action:"edit"});
+      //       break;
+
+      //     default:
+      //       // code block
+      //   }
+
+
+      // });
+
+
+    }
+
+    (props.editInput) ? setEditValues() :console.log("NO");
+      // {
+      //   console.log(JSON.stringify(props.editInput.history.location.state.input));
+      // }
+
+    // console.log("in Useeffect the editinput is "+editInput.name);
+
+    // console.log("in useeffect , the json stringofy"+JSON.stringify(editInput));
+    
+    // const nn=editInput.name;
+
+    // if(editInput)
+    // {
+    //   // setInput({...input,name:nn});
+    //   console.log("Now the input is ->"+input); 
+    // }
+
+  },[]);
+
   // const [errorCheck,setErrorCheck]=useState([]);
 
   // const [landEntries,setLandEntries]=useState(
@@ -149,6 +403,8 @@ export default function FarmerRegisterForm() {
       config
     ).then((response) => {
       console.log("Max in tankfeddetails->"+response.data);
+
+      setTankfeddetails(currLandEntries);
   
   });
 
@@ -167,7 +423,9 @@ export default function FarmerRegisterForm() {
       qs.stringify(rainfeddetails) , 
       config
     ).then((response) => {
-      console.log("Max in tankfeddetails->"+response.data);
+      console.log("Max in rainfeddetails->"+response.data);
+
+      setRainfeddetails(currLandEntries);
   
   });
 
@@ -187,7 +445,9 @@ export default function FarmerRegisterForm() {
       qs.stringify(borewelldetails) , 
       config
     ).then((response) => {
-      console.log("Max in tankfeddetails->"+response.data);
+      console.log("Max in borewelldetails->"+response.data);
+
+      setborewelldetails(currLandEntries);
   
   });
 
@@ -205,7 +465,9 @@ export default function FarmerRegisterForm() {
       qs.stringify(dripdetails) , 
       config
     ).then((response) => {
-      console.log("Max in tankfeddetails->"+response.data);
+      console.log("Max in dripdetails->"+response.data);
+
+      setRainfeddetails(currLandEntries);
   
   });
 
@@ -231,7 +493,14 @@ export default function FarmerRegisterForm() {
 
   useEffect(() => {
     console.log(input);
-  }, [input]);
+  }, [input]);  
+  
+  useEffect(() => {
+
+    if(landDetails)
+    console.log("landDetails");
+    console.log(landDetails);
+  }, [landDetails]);
 
   const config = {
     headers: {
@@ -271,6 +540,8 @@ export default function FarmerRegisterForm() {
 
 
 
+    // (props.editInput) ? setInput({...input,action:"edit"}):setInput({...input,action:"add"});
+
 
     // Test the string against the regular expression
    
@@ -281,7 +552,7 @@ export default function FarmerRegisterForm() {
     axios.post('test-axios.php', qs.stringify(input) , config).then((response) => {
       
     console.log("Hey");
-      console.log(response.data);
+      console.log(response);
 
       let currId=response.data;
       // maxid=response.data;
@@ -325,6 +596,7 @@ export default function FarmerRegisterForm() {
     setpopupMessageTitle("Success");
     setpopupMessageBody("Farmer Registration Successful");
 
+
     
       }).catch(e=>console.log(e)); 
 
@@ -333,6 +605,8 @@ export default function FarmerRegisterForm() {
       setRainfeddetails(currLandEntries);
       setborewelldetails(currLandEntries);
       setDripdetails(currLandEntries);
+      setActionn("add");
+      
 
     console.log("Form Submitted");
     // let formdata = new FormData();
@@ -347,8 +621,9 @@ export default function FarmerRegisterForm() {
   }
 
   function handleFarmerTest()
-  {console.log("TEST TEST");
-    setInput({...input,
+  {
+      console.log("TEST TEST");
+      setInput({...input,
       associate:localStorage.getItem("associate")||'-1',
       name: "Ninad",
       spouse: "Xyz",
@@ -404,7 +679,7 @@ export default function FarmerRegisterForm() {
     </ModalFooter> */}
 </Modal>
     <form onSubmit={handleFarmerRegistration}>
-      <Card>
+      <Card >
         <CardHeader color="purple" contentPosition="none" >
           <div className="w-full flex items-center justify-between">
             <h2 className="text-white text-2xl" >Farmer's Registration</h2>
@@ -418,11 +693,11 @@ export default function FarmerRegisterForm() {
               ripple="light"
               value="Submit1"
             >
-              Add Farmer Information
+             {(actionn=='edit')? "Update ":"Add "}Farmer Information
             </Button>
           </div>
         </CardHeader>
-        <CardBody>
+        <CardBody >
           <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
             Personal Information 
             {/* <Button type='button' onClick={handleFarmerTest}>Test</Button> */}
@@ -482,11 +757,13 @@ export default function FarmerRegisterForm() {
               <Label htmlFor="divGender">Select Gender:</Label>
               <div class="flex flex-wrap gap-x-8 " id="divGender">
                 <div class="flex items-center">
+                
                   <Radio
                     name="gender"
                     id="genderMale"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
                     text="Male"
+                    checked={(input.gender=='Male')? "checked":""}
                     onClick={() => {
                       setInput({ ...input, gender: "Male" });
                     }}
@@ -497,6 +774,7 @@ export default function FarmerRegisterForm() {
                     name="gender"
                     id="genderFemale"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.gender=='Female')? "checked":""}
                     text="Female"
                     onClick={() => {
                       setInput({ ...input, gender: "Female" });
@@ -710,6 +988,7 @@ export default function FarmerRegisterForm() {
                     id="mnregaYes"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.mnregaMember=='Yes')? "checked":""}
                     onClick={() => {
                       setInput({ ...input, mnregaMember: "Yes" });
                     }}
@@ -728,6 +1007,7 @@ export default function FarmerRegisterForm() {
                     id="mnregaNo"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.mnregaMember=='No')? "checked":""}
                     onClick={() => {
                       setInput({ ...input, mnregaMember: "No" });
                     }}
@@ -743,7 +1023,7 @@ export default function FarmerRegisterForm() {
               </div>
             </div>
 
-            <div className="w-full lg:w-4/12 pr-4 mb-10 font-light">
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-light hidden">
               <label htmlFor="divCreditAvailed">Credit Availed:</label>
               <div class="flex flex-wrap gap-x-8 " id="divCreditAvailed">
                 <div class="flex items-center">
@@ -752,6 +1032,7 @@ export default function FarmerRegisterForm() {
                     id="creditYes"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.credit.length!=0)? "checked":""}
                     onClick={() => {
                       disableById("enterCredit", "Yes");
                     }}
@@ -769,6 +1050,7 @@ export default function FarmerRegisterForm() {
                     name="creditAvailed"
                     id="creditNo"
                     type="radio"
+                    checked={(input.credit=="")? "checked":""}
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
                     onClick={() => {
                       setInput({ ...input, credit: "" });
@@ -795,7 +1077,7 @@ export default function FarmerRegisterForm() {
                 onChange={(e) => setInput({ ...input, credit: e.target.value })}
               />
             </div>
-            <div className="w-full lg:w-4/12 pr-4 mb-10 font-light">
+            <div className="w-full lg:w-4/12 pr-4 mb-10 font-light hidden">
               <label htmlFor="divMemberCBO">Is Member in CBO:</label>
               <div class="flex flex-wrap gap-x-8 " id="divMemberCBO">
                 <div class="flex items-center">
@@ -860,6 +1142,7 @@ export default function FarmerRegisterForm() {
                     id="kitchenGardenYes"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.kitchenGarden=='Yes')? "checked":""}
                     onClick={() => {
                       setInput({ ...input, kitchenGarden: "Yes" });
                     }}
@@ -878,6 +1161,7 @@ export default function FarmerRegisterForm() {
                     id="kitchenGardenNo"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.kitchenGarden!='Yes')? "checked":""}
                     onClick={() => {
                       setInput({ ...input, kitchenGarden: "No" });
                     }}
@@ -901,6 +1185,7 @@ export default function FarmerRegisterForm() {
                     id="smsServiceYes"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.smsService=='Yes')}
                     onClick={() => {
                       setInput({ ...input, smsService: "Yes" });
                     }}
@@ -919,6 +1204,7 @@ export default function FarmerRegisterForm() {
                     id="smsServiceNo"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.smsService!='Yes')}
                     onClick={() => {
                       setInput({ ...input, smsService: "No" });
                     }}
@@ -942,6 +1228,7 @@ export default function FarmerRegisterForm() {
                     id="voiceSmsYes"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.voiceSms=='Yes')}
                     onClick={() => {
                       setInput({ ...input, voiceSms: "Yes" });
                     }}
@@ -960,6 +1247,7 @@ export default function FarmerRegisterForm() {
                     id="voiceSmsNo"
                     type="radio"
                     class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                    checked={(input.voiceSms!='Yes')}
                     onClick={() => {
                       setInput({ ...input, voiceSms: "No" });
                     }}
@@ -997,7 +1285,7 @@ export default function FarmerRegisterForm() {
                 type="number"
                 color="purple"
                 placeholder="Longitude"
-                value={input.long}
+                value={(input.long)}
                 onChange={(e) => setInput({ ...input, long: e.target.value })}
               />
             </div>
@@ -1007,7 +1295,7 @@ export default function FarmerRegisterForm() {
           </h6>
           <div className="flex flex-wrap mt-10">
             <label htmlFor="divCreditAvailed" className="mx-4">
-              Select if Applicable:
+              Select Applicable Land:
             </label>
             <div className="mx-4">
               {" "}
@@ -1016,6 +1304,11 @@ export default function FarmerRegisterForm() {
                 text="Tankfed"
                 id="checkbox"
                 className="mx-4"
+                // checked={()=>{
+                //   checkLandType('tankfed')
+                // }}
+                defaultChecked={landDetails.tankfed}
+                // checked={props.editInput&& (props.editInput.history.location.state.input.landrecord[0].type=='tankfed'||props.editInput.history.location.state.input.landrecord[1].type=='tankfed'||props.editInput.history.location.state.input.landrecord[2].type=='tankfed'||props.editInput.history.location.state.input.landrecord[3].type=='tankfed') }
                 onChange={()=>{
                 if(landDetails.tankfed==false)
                 {
@@ -1034,6 +1327,8 @@ export default function FarmerRegisterForm() {
               color="lightBlue" 
               text="Rainfed" 
               id="checkbox1" 
+              defaultChecked={landDetails.rainfed}
+              // checked={props.editInput&&( props.editInput.history.location.state.input.landrecord[0].type=='rainfed'||props.editInput.history.location.state.input.landrecord[1].type=='rainfed'||props.editInput.history.location.state.input.landrecord[2].type=='rainfed'||props.editInput.history.location.state.input.landrecord[3].type=='rainfed') }
               onChange={()=>{
                 if(landDetails.rainfed==false)
                 {
@@ -1048,6 +1343,8 @@ export default function FarmerRegisterForm() {
             </div>
             <div className="mx-4">
               <Checkbox color="lightBlue" text="Bore Well" id="checkbox2" 
+               defaultChecked={landDetails.borewell}
+                          //  checked={props.editInput&& (props.editInput.history.location.state.input.landrecord[0].type=='borewell'||props.editInput.history.location.state.input.landrecord[1].type=='borewell'||props.editInput.history.location.state.input.landrecord[2].type=='borewell'||props.editInput.history.location.state.input.landrecord[3].type=='borewell' )}
                   onChange={()=>{
                 if(landDetails.borewell==false)
                 {
@@ -1065,6 +1362,9 @@ export default function FarmerRegisterForm() {
                 color="lightBlue"
                 text="Drip / Open Well/ Canal irrigation"
                 id="checkbox3"
+                defaultChecked={landDetails.drip}
+                // checked={props.editInput&&( props.editInput.history.location.state.input.landrecord[0].type=='drip'||props.editInput.history.location.state.input.landrecord[1].type=='drip'||props.editInput.history.location.state.input.landrecord[2].type=='drip'||props.editInput.history.location.state.input.landrecord[3].type=='drip') }
+
                 onChange={()=>{
                 if(landDetails.drip==false)
                 {
@@ -1082,10 +1382,10 @@ export default function FarmerRegisterForm() {
        <ShowFarmerCropDetails isChecked={landDetails.rainfed} type='rainfed' id='1'/>
        <ShowFarmerCropDetails isChecked={landDetails.borewell} type='borewell' id='2'/>
        <ShowFarmerCropDetails isChecked={landDetails.drip} type='drip' id='3'/> */}
-       <FarmerCropDetails isChecked={landDetails.tankfed} type='tankfed' id='0' landEntries={tankfeddetails} onLandDetails={setTankfeddetails} />
-       <FarmerCropDetails isChecked={landDetails.rainfed} type='rainfed' id='1' landEntries={rainfeddetails} onLandDetails={setRainfeddetails}/>
-       <FarmerCropDetails isChecked={landDetails.borewell} type='borewell' id='2' landEntries={borewelldetails} onLandDetails={setborewelldetails}/>
-       <FarmerCropDetails isChecked={landDetails.drip} type='drip' id='3' landEntries={dripdetails} onLandDetails={setDripdetails}/>
+       <FarmerCropDetails isChecked={landDetails.tankfed} ref={tankfedCheck} type='tankfed' id='0' landEntries={tankfeddetails} onLandDetails={setTankfeddetails} />
+       <FarmerCropDetails isChecked={landDetails.rainfed} ref={rainfedCheck}  type='rainfed' id='1' landEntries={rainfeddetails} onLandDetails={setRainfeddetails}/>
+       <FarmerCropDetails isChecked={landDetails.borewell} ref={borewellCheck}  type='borewell' id='2' landEntries={borewelldetails} onLandDetails={setborewelldetails}/>
+       <FarmerCropDetails isChecked={landDetails.drip} ref={dripCheck}  type='drip' id='3' landEntries={dripdetails} onLandDetails={setDripdetails}/>
 
           <h6 className="text-purple-500 text-sm mt-6  font-light uppercase">
             Climate induced Risks in Farming?

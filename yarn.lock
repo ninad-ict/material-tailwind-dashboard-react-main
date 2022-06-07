@@ -6868,6 +6868,9 @@
   dependencies:
     "ms" "^2.0.0"
 
+"IconButton@file:material-tailwind/react/IconButton":
+  "resolved" "file:material-tailwind/react/IconButton"
+
 "iconv-lite@^0.6.2":
   "integrity" "sha512-2y91h5OpQlolefMPmUlivelittSWy0rP+oYVpn6A7GwVHNE8AWzoYOBNmlwks3LobaJxgHCYZAnyNo2GgpNRNQ=="
   "resolved" "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.6.2.tgz"

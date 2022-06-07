@@ -11,6 +11,13 @@ import { useState,useEffect } from 'react';
 import axios from '../axios';
 import Button from "@material-tailwind/react/Button";
 import Icon from '@material-tailwind/react/Icon';
+import Modal from "@material-tailwind/react/Modal";
+import ModalHeader from "@material-tailwind/react/ModalHeader";
+import ModalBody from "@material-tailwind/react/ModalBody";
+import {IconButton} from '@material-tailwind/react/Icon';
+import { Link } from "react-router-dom"; 
+
+import FarmerRegisterForm from './FarmerRegisterForm';
 
 
 import {DataGrid} from '@mui/x-data-grid';
@@ -30,6 +37,10 @@ export default function CardTable() {
     const [columns,setColumns]=useState([]);
     const [rowClick,setRowClick]=useState(false);
     const [rows,setRows]=useState([]);
+
+    const [showModal, setShowModal] = useState(false);
+    const [popupMessageTitle, setpopupMessageTitle] = useState("");
+    const [popupMessageBody, setpopupMessageBody] = useState("");
 
     const inputState={
         associate:"",
@@ -84,7 +95,7 @@ export default function CardTable() {
         }]);
 
         let formdata=new FormData();
-        formdata.append("Data",JSON.stringify({"Option":"farmerList"}));
+        formdata.append("Data",JSON.stringify({"Option":"farmerList","associate":localStorage.getItem("associate")||'-1'}));
 
         axios.post(
         'QueryCheck.php', 
@@ -154,6 +165,8 @@ export default function CardTable() {
 
                     setInput({...input,
                       associate:"",
+                      action:"edit",
+                      id:output.record.id||'',
         name: output.personal.name|| "--",
         spouse: output.personal.spouse|| "--",
         father: output.personal.father|| "--",
@@ -191,8 +204,68 @@ export default function CardTable() {
                 }).catch(e=>console.log(e));
         }
 
+        function handleEditFarmer()
+        {
+{/* <FarmerRegisterForm data={input}/> */}
+        }
+
+        function handleDeleteFarmer()
+        {
+
+            if(!input.id)
+            return;
+
+
+            let formdata=new FormData();
+            formdata.append("Data",JSON.stringify({"Option":"farmerDelete","id":input.id}));
+    
+            axios.post(
+            'QueryCheck.php', 
+            formdata , 
+            config
+            ).then((response) => {
+           
+                console.log(response.data);
+
+                if(response.data.trim()=='DONE')
+                {
+                    console.log("its actually DONE");
+                    setTriggerList(!triggerList);
+                    setRowClick(false);
+
+                    setShowModal(true);
+                    setpopupMessageTitle("Success");
+                    setpopupMessageBody("Farmer: "+input.name+" Deleted");
+                }
+    
+    
+            }).catch(e=>console.log(e));
+
+        }
+
 
     return (
+<>
+        <Modal size="regular" active={showModal} toggler={() => setShowModal(false)}>
+        <ModalHeader toggler={() => setShowModal(false)} className="text-gray-600">
+           <p className='mr-10'>{popupMessageTitle}</p>
+        </ModalHeader>
+        <ModalBody>
+            <p className="text-base leading-relaxed text-gray-600 font-normal text-center">
+               {popupMessageBody}
+            </p>
+        </ModalBody>
+        {/* <ModalFooter>
+            <Button 
+                color="red"
+                buttonType="link"
+                onClick={(e) => setShowModalCode(false)}
+                ripple="dark"
+            >
+                Close
+            </Button>
+        </ModalFooter> */}
+    </Modal>
         <Card>
             <CardHeader color="purple" contentPosition="left">
                 <h2 className="text-white text-2xl">Report</h2>
@@ -253,7 +326,41 @@ Farmer Registration Details            {/* Add Associate */}
                         <thead>
                         <tr>
                             <th colspan='6' className="strong text-blue-500 align-left border-b border-solid border-gray-200 py-3 text-base whitespace-nowrap font-bold text-center">
-                            <h2>Farmer Details for {input.name}</h2>
+                            <h2 className='inline'>Farmer Details for {input.name}</h2>
+                            <span className='float-right'>
+                            <Button
+            color="lightBlue"
+            buttonType="link"
+            size="regular"
+            rounded={true}
+            block={false}
+            iconOnly={false}
+            ripple="dark"
+            onClick={handleDeleteFarmer}
+        >
+        <Icon name="delete" size="lg" /></Button> </span>  <span className='float-right'>
+        <Link  to={{pathname:"/farm-register", state: {
+      input
+    }
+    }} >
+                            <Button
+            color="lightBlue"
+            buttonType="link"
+            size="regular"
+            rounded={true}
+            block={false}
+            iconOnly={false}
+            ripple="dark"
+            onClick={handleEditFarmer}
+        >
+        <Icon name="edit" size="lg" /></Button>
+        </Link> </span> 
+                            {/* <IconButton variant="text">
+        <i className="fas fa-heart" />
+      </IconButton> */}
+                            {/* <span className='float-right y-auto'>   <IconButton variant="text">
+        <i className="fas fa-heart" />
+      </IconButton></span> */}
                             </th>
                         </tr>     
                         <tr className='bg-blue-500 rounded-lg'>
@@ -744,5 +851,6 @@ Farm Details for {input.name}            {/* Add Associate */}
                 </div>
             </CardBody>
         </Card>
+        </>
     );
 }

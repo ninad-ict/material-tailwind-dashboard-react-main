@@ -14,6 +14,26 @@ TRUNCATE farmereducationwork;
 TRUNCATE farmerotherdetails;
 TRUNCATE farmerlandrecord;
 
+
+
+update farmerrecordkey set isdeleted=1 where id='$id';
+update farmerpersonaldetails set isdeleted=1 where id='$id';
+update farmercontactdetails set isdeleted=1 where id='$id';
+update farmerlocationdetails set isdeleted=1 where id='$id';
+update farmereducationwork set isdeleted=1 where id='$id';
+update farmerotherdetails set isdeleted=1 where id='$id';
+update farmerlandrecord set isdeleted=1 where id='$id';
+
+
+
+update farmerrecordkey set isdeleted=0 ;
+update farmerpersonaldetails set isdeleted=0 ;
+update farmercontactdetails set isdeleted=0 ;
+update farmerlocationdetails set isdeleted=0 ;
+update farmereducationwork set isdeleted=0  ;
+update farmerotherdetails set isdeleted=0 ;
+update farmerlandrecord set isdeleted=0 ;
+
  
  
  
@@ -158,3 +178,70 @@ TRUNCATE farmerlandrecord;
             liveStock text,
             isdeleted boolean DEFAULT false
       )
+
+
+
+--------------------+------------+------+-----+-------------------+----------------+
+| srno                | int(11)    | NO   | PRI | NULL              | auto_increment |
+| created             | timestamp  | NO   |     | CURRENT_TIMESTAMP |                |
+| id                  | text       | YES  |     | NULL              |                |
+| type                | text       | YES  |     | NULL              |                |
+| acres               | text       | YES  |     | NULL              |                |
+| cultivationArea     | text       | YES  |     | NULL              |                |
+| soiltype            | text       | YES  |     | NULL              |                |
+| landOwner           | text       | YES  |     | NULL              |                |
+| cutlivationPractice | text       | YES  |     | NULL              |                |
+| landPosition        | text       | YES  |     | NULL              |                |
+| landType            | text       | YES  |     | NULL              |                |
+| crop1               | text       | YES  |     | NULL              |                |
+| crop2               | text       | YES  |     | NULL              |                |
+| crop3               | text       | YES  |     | NULL              |                |
+| variety             | text       | YES  |     | NULL              |                |
+| subVariety          | text       | YES  |     | NULL              |                |
+| season              | text       | YES  |     | NULL              |                |
+| fertilizer          | text       | YES  |     | NULL              |                |
+| biofertilizer       | text       | YES  |     | NULL              |                |
+| lastYearYield       | text       | YES  |     | NULL              |                |
+| rateSale            | text       | YES  |     | NULL              |                |
+| availabilityMachine | text       | YES  |     | NULL              |                |
+| cropInsurance       | text       | YES  |     | NULL              |                |
+| liveStock           | text       | YES  |     | NULL              |                |
+| isdeleted           | tinyint(1) | YES  |     | 0                 |            
+
+
+//---Changes in 4th June---------
+      
+      alter table farmerlandrecord 
+      drop column crop1,
+      drop column crop2,
+      drop column crop3,
+      drop column variety,
+      drop column subVariety,
+      drop column season,
+      drop column fertilizer,
+      drop column biofertilizer,
+      drop column lastYearYield,
+      drop column rateSale,
+      drop column availabilityMachine,
+      drop column cropInsurance;   
+
+
+create table farmercropdetails (
+
+            srno integer auto_increment primary key,created timestamp default current_timestamp,
+            land text,
+            crop text,
+            variety text,
+            subVariety text,
+            season text,
+            fertilizer text,
+            biofertilizer text,
+            lastYearYield text,
+            rateSale text,
+            availabilityMachine text,
+            cropInsurance text,
+            isdeleted boolean DEFAULT false
+
+);
+
+//---Changes in 4th June---------
