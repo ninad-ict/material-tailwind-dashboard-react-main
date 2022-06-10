@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/fasli/static/css/main.4725862b.chunk.css",
-    "main.js": "/fasli/static/js/main.f729e659.chunk.js",
-    "main.js.map": "/fasli/static/js/main.f729e659.chunk.js.map",
-    "runtime-main.js": "/fasli/static/js/runtime-main.ac6a233f.js",
-    "runtime-main.js.map": "/fasli/static/js/runtime-main.ac6a233f.js.map",
-    "static/js/2.48e34c4f.chunk.js": "/fasli/static/js/2.48e34c4f.chunk.js",
-    "static/js/2.48e34c4f.chunk.js.map": "/fasli/static/js/2.48e34c4f.chunk.js.map",
-    "static/js/3.e2da451e.chunk.js": "/fasli/static/js/3.e2da451e.chunk.js",
-    "static/js/3.e2da451e.chunk.js.map": "/fasli/static/js/3.e2da451e.chunk.js.map",
+    "main.css": "/fasli/static/css/main.08778290.chunk.css",
+    "main.js": "/fasli/static/js/main.92d2e459.chunk.js",
+    "main.js.map": "/fasli/static/js/main.92d2e459.chunk.js.map",
+    "runtime-main.js": "/fasli/static/js/runtime-main.06a72eb7.js",
+    "runtime-main.js.map": "/fasli/static/js/runtime-main.06a72eb7.js.map",
+    "static/js/2.172bae6f.chunk.js": "/fasli/static/js/2.172bae6f.chunk.js",
+    "static/js/2.172bae6f.chunk.js.map": "/fasli/static/js/2.172bae6f.chunk.js.map",
+    "static/js/3.b3abd660.chunk.js": "/fasli/static/js/3.b3abd660.chunk.js",
+    "static/js/3.b3abd660.chunk.js.map": "/fasli/static/js/3.b3abd660.chunk.js.map",
     "index.html": "/fasli/index.html",
-    "static/css/main.4725862b.chunk.css.map": "/fasli/static/css/main.4725862b.chunk.css.map",
-    "static/js/2.48e34c4f.chunk.js.LICENSE.txt": "/fasli/static/js/2.48e34c4f.chunk.js.LICENSE.txt",
+    "static/css/main.08778290.chunk.css.map": "/fasli/static/css/main.08778290.chunk.css.map",
+    "static/js/2.172bae6f.chunk.js.LICENSE.txt": "/fasli/static/js/2.172bae6f.chunk.js.LICENSE.txt",
     "static/media/tailwind.css": "/fasli/static/media/background-1920x1280.20a2d875.jpg",
     "static/media/banner_dhan_foundation_png.7d69d01f.png": "/fasli/static/media/banner_dhan_foundation_png.7d69d01f.png",
     "static/media/team-1-800x800.fa5a7ac2.jpg": "/fasli/static/media/team-1-800x800.fa5a7ac2.jpg",
@@ -20,9 +20,9 @@
     "static/media/team-4-470x470.4ef82ef4.png": "/fasli/static/media/team-4-470x470.4ef82ef4.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.ac6a233f.js",
-    "static/js/2.48e34c4f.chunk.js",
-    "static/css/main.4725862b.chunk.css",
-    "static/js/main.f729e659.chunk.js"
+    "static/js/runtime-main.06a72eb7.js",
+    "static/js/2.172bae6f.chunk.js",
+    "static/css/main.08778290.chunk.css",
+    "static/js/main.92d2e459.chunk.js"
   ]
 }

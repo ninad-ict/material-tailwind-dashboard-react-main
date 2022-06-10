@@ -229,6 +229,7 @@ update farmerlandrecord set isdeleted=0 ;
 create table farmercropdetails (
 
             srno integer auto_increment primary key,created timestamp default current_timestamp,
+            farmer text,
             land text,
             crop text,
             variety text,
@@ -243,5 +244,7 @@ create table farmercropdetails (
             isdeleted boolean DEFAULT false
 
 );
+
+-- alter table farmercropdetails add column farmer text after created; In case table created without farmerdetails
 
 //---Changes in 4th June---------

@@ -21,6 +21,7 @@ import ModalHeader from "@material-tailwind/react/ModalHeader";
 import ModalBody from "@material-tailwind/react/ModalBody";
 import { indexOf } from "lodash";
 import { func } from "assert-plus";
+// select {Route} from "router-react-nav";
 
 export default function FarmerRegisterForm(props) {
   // const [maxid,setMaxid]=useState(4);
@@ -64,18 +65,6 @@ export default function FarmerRegisterForm(props) {
     cutlivationPractice:"Cultivation Practice",
     landPosition:"Select Land Position",
     landType:"Select Land Type",
-    crop1:"",
-    crop2:"",
-    crop3:"",
-    variety:"",
-    subVariety:"",
-    season:"",
-    fertilizer:"",
-    biofertilizer:"",
-    lastYearYield:"",
-    rateSale:"",
-    availabilityMachine:"",
-    cropInsurance:"",
     liveStock:"Select Livestock"
   }
   const [tankfeddetails,setTankfeddetails]=useState(()=>{
@@ -405,6 +394,7 @@ export default function FarmerRegisterForm(props) {
       console.log("Max in tankfeddetails->"+response.data);
 
       setTankfeddetails(currLandEntries);
+      setLandDetails({...landDetails,tankfed:false}) 
   
   });
 
@@ -426,6 +416,8 @@ export default function FarmerRegisterForm(props) {
       console.log("Max in rainfeddetails->"+response.data);
 
       setRainfeddetails(currLandEntries);
+      setLandDetails({...landDetails,rainfed:false});
+
   
   });
 
@@ -448,6 +440,7 @@ export default function FarmerRegisterForm(props) {
       console.log("Max in borewelldetails->"+response.data);
 
       setborewelldetails(currLandEntries);
+      setLandDetails({...landDetails,borewell:false}) 
   
   });
 
@@ -468,6 +461,8 @@ export default function FarmerRegisterForm(props) {
       console.log("Max in dripdetails->"+response.data);
 
       setRainfeddetails(currLandEntries);
+      setLandDetails({...landDetails,drip:false}) 
+
   
   });
 
@@ -595,17 +590,26 @@ export default function FarmerRegisterForm(props) {
     setShowModal(true);
     setpopupMessageTitle("Success");
     setpopupMessageBody("Farmer Registration Successful");
-
+    setInput(inputState);
+    setLandDetails( {
+      tankfed:false,
+      rainfed:false,
+      borewell:false,
+      drip:false
+    });
 
     
       }).catch(e=>console.log(e)); 
 
-      setInput(inputState);
-      setTankfeddetails(currLandEntries);
-      setRainfeddetails(currLandEntries);
-      setborewelldetails(currLandEntries);
-      setDripdetails(currLandEntries);
+      
+      // setTankfeddetails(currLandEntries);
+      // setRainfeddetails(currLandEntries);
+      // setborewelldetails(currLandEntries);
+      // setDripdetails(currLandEntries);
       setActionn("add");
+ 
+      // window.location.reload();
+      // <Route to='/'></Route>
       
 
     console.log("Form Submitted");
@@ -736,7 +740,6 @@ export default function FarmerRegisterForm(props) {
                 type="date"
                 color="purple"
                 placeholder="Date of Birth"
-                required
                 value={input.dob}
                 onChange={(e) => setInput({ ...input, dob: e.target.value })}
                 error={!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/.test(input.dob)&&input.dob? "Invalid Date":""}
@@ -747,7 +750,6 @@ export default function FarmerRegisterForm(props) {
                 type="number"
                 color="purple"
                 placeholder="Aadhar No."
-                required
                 value={input.aadhar}
                 onChange={(e) => setInput({ ...input, aadhar: e.target.value })}
                 error={!/^\d{12}$/.test(input.aadhar)&&input.aadhar? ("Invalid Aadhar Number"):("")}
@@ -794,7 +796,6 @@ export default function FarmerRegisterForm(props) {
                 type="number"
                 color="purple"
                 placeholder="Farmer Mobile No."
-                required
                 value={input.farmerMobile}
                 onChange={(e) =>
                   setInput({ ...input, farmerMobile: e.target.value })
@@ -848,7 +849,6 @@ export default function FarmerRegisterForm(props) {
                 type="text"
                 color="purple"
                 placeholder="District"
-                required
                 value={input.district}
                 onChange={(e) =>
                   setInput({ ...input, district: e.target.value })
@@ -860,7 +860,6 @@ export default function FarmerRegisterForm(props) {
                 type="text"
                 color="purple"
                 placeholder="Block"
-                required
                 value={input.block}
                 onChange={(e) => setInput({ ...input, block: e.target.value })}
               />
@@ -870,7 +869,6 @@ export default function FarmerRegisterForm(props) {
                 type="text"
                 color="purple"
                 placeholder="Panchayat"
-                required
                 value={input.panchayat}
                 onChange={(e) =>
                   setInput({ ...input, panchayat: e.target.value })
@@ -882,7 +880,6 @@ export default function FarmerRegisterForm(props) {
                 type="text"
                 color="purple"
                 placeholder="Village"
-                required
                 value={input.village}
                 onChange={(e) =>
                   setInput({ ...input, village: e.target.value })
@@ -1307,7 +1304,7 @@ export default function FarmerRegisterForm(props) {
                 // checked={()=>{
                 //   checkLandType('tankfed')
                 // }}
-                defaultChecked={landDetails.tankfed}
+                checked={(landDetails.tankfed) ? true :false}
                 // checked={props.editInput&& (props.editInput.history.location.state.input.landrecord[0].type=='tankfed'||props.editInput.history.location.state.input.landrecord[1].type=='tankfed'||props.editInput.history.location.state.input.landrecord[2].type=='tankfed'||props.editInput.history.location.state.input.landrecord[3].type=='tankfed') }
                 onChange={()=>{
                 if(landDetails.tankfed==false)
@@ -1327,7 +1324,7 @@ export default function FarmerRegisterForm(props) {
               color="lightBlue" 
               text="Rainfed" 
               id="checkbox1" 
-              defaultChecked={landDetails.rainfed}
+              checked={(landDetails.rainfed) ? true :false}
               // checked={props.editInput&&( props.editInput.history.location.state.input.landrecord[0].type=='rainfed'||props.editInput.history.location.state.input.landrecord[1].type=='rainfed'||props.editInput.history.location.state.input.landrecord[2].type=='rainfed'||props.editInput.history.location.state.input.landrecord[3].type=='rainfed') }
               onChange={()=>{
                 if(landDetails.rainfed==false)
@@ -1343,7 +1340,7 @@ export default function FarmerRegisterForm(props) {
             </div>
             <div className="mx-4">
               <Checkbox color="lightBlue" text="Bore Well" id="checkbox2" 
-               defaultChecked={landDetails.borewell}
+               checked={(landDetails.borewell) ? true :false}
                           //  checked={props.editInput&& (props.editInput.history.location.state.input.landrecord[0].type=='borewell'||props.editInput.history.location.state.input.landrecord[1].type=='borewell'||props.editInput.history.location.state.input.landrecord[2].type=='borewell'||props.editInput.history.location.state.input.landrecord[3].type=='borewell' )}
                   onChange={()=>{
                 if(landDetails.borewell==false)
@@ -1362,7 +1359,7 @@ export default function FarmerRegisterForm(props) {
                 color="lightBlue"
                 text="Drip / Open Well/ Canal irrigation"
                 id="checkbox3"
-                defaultChecked={landDetails.drip}
+                checked={(landDetails.drip) ? true :false}
                 // checked={props.editInput&&( props.editInput.history.location.state.input.landrecord[0].type=='drip'||props.editInput.history.location.state.input.landrecord[1].type=='drip'||props.editInput.history.location.state.input.landrecord[2].type=='drip'||props.editInput.history.location.state.input.landrecord[3].type=='drip') }
 
                 onChange={()=>{

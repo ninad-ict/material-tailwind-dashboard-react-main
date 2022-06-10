@@ -46,9 +46,18 @@ export default function FarmerCropDetails(props)
 
     useEffect(()=>{
 
-        
+        handleLandEntries({...landEntries,cropdetails:newCrop});
+
 
     },[newCrop]);
+
+
+    useEffect (()=>{
+        if(!visibility)
+        {
+            setNewCrop([]);
+        }
+    },[visibility]);
 
   
     console.log("Visibile->"+visibility);
