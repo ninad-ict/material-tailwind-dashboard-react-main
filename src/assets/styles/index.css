@@ -25,3 +25,9 @@
 .left-login{
 	left: 35%;
 }
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+  color: #1264f1;
+}

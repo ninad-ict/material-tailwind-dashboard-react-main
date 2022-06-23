@@ -16,11 +16,13 @@ import ModalHeader from "@material-tailwind/react/ModalHeader";
 import ModalBody from "@material-tailwind/react/ModalBody";
 import {IconButton} from '@material-tailwind/react/Icon';
 import { Link } from "react-router-dom"; 
+import Radio  from '@material-tailwind/react/radio';
 
 import FarmerRegisterForm from './FarmerRegisterForm';
 
 
 import {DataGrid} from '@mui/x-data-grid';
+import { Label } from '@material-tailwind/react';
 
 
 const config = {
@@ -41,6 +43,8 @@ export default function CardTable() {
     const [showModal, setShowModal] = useState(false);
     const [popupMessageTitle, setpopupMessageTitle] = useState("");
     const [popupMessageBody, setpopupMessageBody] = useState("");
+
+    const [reportOption,setReportOption]=useState('farmer');
 
     const inputState={
         associate:"",
@@ -79,20 +83,20 @@ export default function CardTable() {
 
     useEffect(()=>{
 
-        setColumns( [ {field:'id',headerName:'id', type: 'number'},
-        { field: 'date', headerName: 'Created', width: 130 },
-        { field: 'name', headerName: 'Farmer Name', width: 130 },
-        {
-          field: 'mobile',
-          headerName: 'Contact',
-          type: 'number',
-          width: 130,
-        },
-        { field: 'district', headerName: 'District', width: 130 },
-        {
-          field: 'associate',
-          headerName: 'Facilitator',
-        }]);
+        // setColumns( [ {field:'id',headerName:'id', type: 'number'},
+        // { field: 'date', headerName: 'Created', width: 130 },
+        // { field: 'name', headerName: 'Farmer Name', width: 130 },
+        // {
+        //   field: 'mobile',
+        //   headerName: 'Contact',
+        //   type: 'number',
+        //   width: 130,
+        // },
+        // { field: 'district', headerName: 'District', width: 130 },
+        // {
+        //   field: 'associate',
+        //   headerName: 'Facilitator',
+        // }]);
 
         let formdata=new FormData();
         formdata.append("Data",JSON.stringify({"Option":"farmerList","associate":localStorage.getItem("associate")||'-1'}));
@@ -125,7 +129,7 @@ export default function CardTable() {
         // ))]);
 
         console.log(response.data.farmerList);
-        setRows(response.data.farmerList);
+        // setRows(response.data.farmerList);
 
       
 
@@ -244,6 +248,75 @@ export default function CardTable() {
         }
 
 
+        useEffect(()=>{
+
+            if(reportOption=='farmer')
+            {
+                setColumns( [ 
+                {field:'Mainid',headerName:'ID'},
+                { field: 'created', headerName: 'Created', width: 130 },
+                { field: 'assocname', headerName: 'Associate', width: 130 },
+                { field: 'name', headerName: 'Farmer Name', width: 130 },
+                { field: 'spouse', headerName: 'Spouse', width: 130 },
+                { field: 'father', headerName: 'Father', width: 130 },
+                { field: 'dob', headerName: 'Birth Date', width: 130 },
+                { field: 'aadhar', headerName: 'Aadhar Numer', width: 130 },
+                { field: 'gender', headerName: 'Gender', width: 130 },
+                { field: 'farmerMobile', headerName: 'Mobile', width: 130 },
+                { field: 'spouseMobile', headerName: 'Spouse Mobile', width: 130 },
+                { field: 'alternatemobile', headerName: 'Alter. Mobile', width: 130 },
+                { field: 'totalnumbers', headerName: 'Total Numbers', width: 130 },
+                { field: 'district', headerName: 'District', width: 130 },
+                { field: 'block', headerName: 'Block', width: 130 },
+                { field: 'panchayat', headerName: 'Panchayat', width: 130 },
+                { field: 'village', headerName: 'Village', width: 130 },
+                { field: 'door', headerName: 'Door', width: 130 },
+                { field: 'street', headerName: 'Street', width: 130 },
+                { field: 'education', headerName: 'Education', width: 130 },
+                { field: 'income', headerName: 'Income', width: 130 },
+                { field: 'mnregaMember', headerName: 'MNREGA?', width: 130 },
+                { field: 'credit', headerName: 'Credit', width: 130 },
+                { field: 'cboMember', headerName: 'CBO Member?', width: 130 },
+                { field: 'kitchenGarden', headerName: 'Kitchen Garden', width: 130 },
+                { field: 'smsService', headerName: 'SMS Service', width: 130 },
+                { field: 'voiceSms', headerName: 'Voice SMS', width: 130 },
+                { field: 'patta', headerName: 'Patta', width: 130 },
+                { field: 'lat', headerName: 'Latitude', width: 130 },
+                { field: 'longg', headerName: 'Longitude', width: 130 },
+                { field: 'climateNote', headerName: 'Note on Climate', width: 130 },
+            ]);
+            }
+
+            let formdata=new FormData();
+            formdata.append("Data",JSON.stringify({"Option":"getSelectedReport","type":reportOption}));
+            console.log(reportOption);
+            axios.post(
+                'QueryCheck.php', 
+                formdata , 
+                config
+                ).then((response) => {
+
+                    console.log("HEYYY");
+                    console.log(response);
+                    console.log(response.data.selectedReport);
+                    response.data.selectedReport &&   setRows(response.data.selectedReport);
+
+                }).catch(e=>console.log(e));
+
+
+
+
+
+        },[reportOption]);
+
+        useEffect(()=>{
+
+            console.log(columns);
+            console.log(rows);
+            
+        },[rows,columns]);
+
+
     return (
 <>
         <Modal size="regular" active={showModal} toggler={() => setShowModal(false)}>
@@ -271,8 +344,47 @@ export default function CardTable() {
                 <h2 className="text-white text-2xl">Report</h2>
             </CardHeader>
             <CardBody>
+            <div class="flex flex-wrap gap-x-8 ">
+            <div class="flex items-center">
+                
+                <Radio
+                  name="report"
+                  id='reportFarm'
+                  class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                  text="Farmer Details"
+                  checked={(reportOption=='farmer')? "checked":""}
+                    onClick={() => {
+                      setReportOption('farmer');
+                    }}
+                />
+              </div>     
+              <div class="flex items-center">
+                <Radio
+                  name="report"
+                  id='reportLand'
+                  class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                  text="Land Details"
+                  checked={(reportOption=='land')? "checked":""}
+                    onClick={() => {
+                      setReportOption('land');
+                    }}
+                />
+              </div> 
+              <div class="flex items-center">
+                <Radio
+                  name="report"
+                  id='reportCrop'
+                  class="mt-radio mt-radio-light-blue-500 hidden overflow-hidden"
+                  text="Crop Details"
+                  checked={(reportOption=='crop')? "checked":""}
+                    onClick={() => {
+                      setReportOption('crop');
+                    }}
+                />
+              </div>
+            </div>
             <h6 className="text-purple-500 text-sm mt-3 mb-6 font-light uppercase">
-Farmer Registration Details            {/* Add Associate */}
+            {reportOption} Registration Details            {/* Add Associate */}
           </h6>
                 <div className="overflow-x-auto">
                {
@@ -282,14 +394,16 @@ Farmer Registration Details            {/* Add Associate */}
         <div style={{ flexGrow: 1 }}>
                 {(rows) ? 
                 <DataGrid
+                
         rows={rows}
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        onCellClick={e=>handleFarmerTableClick(e)}
+        pageSize={50}
+        rowsPerPageOptions={[25,50,100]}
       /> :console.log("NO ROW")}
       </div>
       </div>
+      {/* // onCellClick={e=>handleFarmerTableClick(e)} */}
+
       </div>
               :
               <div className="w-full lg:w-12/12 mb-10 font-light">

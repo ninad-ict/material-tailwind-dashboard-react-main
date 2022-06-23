@@ -248,3 +248,96 @@ create table farmercropdetails (
 -- alter table farmercropdetails add column farmer text after created; In case table created without farmerdetails
 
 //---Changes in 4th June---------
+select * from
+(
+ select id,associate from farmerrecordkey where isdeleted=0
+) as r
+inner JOIN
+(
+    select * from farmerpersonaldetails
+) as p 
+on r.id=p.id
+inner JOIN
+(
+    select * from farmercontactdetails
+) as c 
+on c.id=r.id
+inner JOIN
+(
+    select * from farmerlocationdetails
+)as l 
+on l.id=r.id 
+inner JOIN
+(
+     select * from farmereducationwork
+) as w 
+on w.id=r.id 
+inner join 
+(
+    select * from farmerotherdetails
+) as o 
+on o.id=r.id
+inner join 
+(
+    select id,name,location from associate
+)as a 
+on a.id=r.associate;
+
+
+select * FROM
+(
+    (
+    select id,associate from farmerrecordkey where isdeleted=0
+    ) as r
+    inner JOIN
+        (
+            select id,name from farmerpersonaldetails
+        ) as p 
+    on r.id=p.id
+    inner JOIN
+    (
+        select * from farmerlandrecord
+    ) as land 
+    on r.id=land.id
+    inner join 
+    (
+        select id,name,location from associate 
+    ) as assoc
+    on r.associate=assoc.id
+
+)
+
+select * FROM
+(
+    (
+    select id,associate from farmerrecordkey where isdeleted=0
+    ) as r
+    inner JOIN
+        (
+            select id,name from farmerpersonaldetails
+        ) as p 
+    on r.id=p.id
+    inner join 
+    (
+        select * from farmercropdetails
+    ) as land 
+    on r.id=land.farmer
+    inner join 
+    (
+        select id,name,location from associate 
+    ) as assoc
+    on r.associate=assoc.id
+
+);
+
+
+
+
+ select * from farmerrecordkey;
+ select * from farmerpersonaldetails;
+ select * from farmercontactdetails;
+ select * from farmerlocationdetails;
+ select * from farmereducationwork;
+ select * from farmerotherdetails;
+ select * from farmerlandrecord; 
+ 

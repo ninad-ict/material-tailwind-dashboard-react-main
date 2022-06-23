@@ -720,7 +720,8 @@ export default function FarmerRegisterForm(props) {
             <div className="w-full lg:w-4/12 pr-4 mb-10 font-light">
               <Input
                 type="text"
-                color="purple"
+                style={{}}
+                color="purple"                
                 placeholder="Spouse Name"
                 value={input.spouse}
                 onChange={(e) => setInput({ ...input, spouse: e.target.value })}
